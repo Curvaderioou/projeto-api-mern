@@ -3,30 +3,30 @@ import bcrypt from "bcrypt";
 
 const UserSchema = new mongoose.Schema({
   name: {
-    type: "string",
+    type: String,
     required: true,
   },
   username: {
-    type: "string",
+    type: String,
     required: true,
   },
   email: {
-    type: "string",
+    type: String,
     required: true,
     lowercase: true,
     unique: true,
   },
   password: {
-    type: "string",
+    type: String,
     required: true,
     select: false,
   },
   avatar: {
-    type: "string",
+    type: String,
     required: true,
   },
   background: {
-    type: "string",
+    type: String,
     required: true,
   },
 });
