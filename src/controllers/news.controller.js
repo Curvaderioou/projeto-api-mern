@@ -2,18 +2,6 @@ import { createService, findAllService } from "../services/news.service.js";
 
 const create = async (req, res) => {
   try {
-    const { authorization } = req.headers;
-    if (!authorization) {
-      return res.send(401);
-    }
-    const parts = authorization.split(" ");
-    if (parts.length !== 2) {
-      return res.send(401);
-    }
-    const [schema, token] = parts;
-    if (schema !== "Bearer") {
-      return res.send(401);
-    }
     const { title, text, banner } = req.body;
     if (!title || !text || !banner) {
       res.status(400).send({ message: "Preencha todos os campos" });
@@ -22,7 +10,7 @@ const create = async (req, res) => {
       title,
       text,
       banner,
-      user: { _id: "65b2a251c6159fa8a07cece1" },
+      user: req.userId,
     });
     res.status(201).send({ message: "Notícia criada com sucesso!" });
   } catch (err) {
