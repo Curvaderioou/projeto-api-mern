@@ -116,3 +116,4 @@ export const findById = async (req, res) => {
     res.status(500).send({ message: err.message });
   }
 };
+export const searchByTitle = async (req, res) => {};
