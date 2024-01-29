@@ -6,6 +6,7 @@ import {
   findByIdService,
   searchByTitleService,
   byUserService,
+  updateService,
 } from "../services/news.service.js";
 
 export const create = async (req, res) => {
@@ -161,6 +162,25 @@ export const byUser = async (req, res) => {
         userAvatar: item.user.avatar,
       })),
     });
+  } catch (err) {
+    res.status(500).send({ message: err.message });
+  }
+};
+export const update = async (req, res) => {
+  try {
+    const { title, text, banner } = req.body;
+    const { id } = req.params;
+    if (!title && !banner && !text) {
+      return res.status(400).send({ message: "Preencha pelo menos um campo" });
+    }
+    const news = await findByIdService(id);
+    if (news.user._id != req.userId) {
+      return res
+        .status(400)
+        .send({ message: "Você não pode alterar essa notícia" });
+    }
+    await updateService(id, title, text, banner);
+    return res.send({ message: "Notícia atualizado com sucesso" });
   } catch (err) {
     res.status(500).send({ message: err.message });
   }
