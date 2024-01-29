@@ -7,6 +7,7 @@ import {
   searchByTitleService,
   byUserService,
   updateService,
+  eraseService,
 } from "../services/news.service.js";
 
 export const create = async (req, res) => {
@@ -181,6 +182,21 @@ export const update = async (req, res) => {
     }
     await updateService(id, title, text, banner);
     return res.send({ message: "Notícia atualizado com sucesso" });
+  } catch (err) {
+    res.status(500).send({ message: err.message });
+  }
+};
+export const erase = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const news = await findByIdService(id);
+    if (news.user._id != req.userId) {
+      return res
+        .status(400)
+        .send({ message: "Você não pode deletar essa notícia" });
+    }
+    await eraseService(id);
+    return res.send({ message: "Notícia deletada com sucesso" });
   } catch (err) {
     res.status(500).send({ message: err.message });
   }
