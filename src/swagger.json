@@ -10,6 +10,10 @@
   },
   "servers": [
     {
+      "url": "https://api-breakingnews-xktz.onrender.com",
+      "description": "Local Server"
+    },
+    {
       "url": "http://localhost:3000",
       "description": "Local Server"
     }
