@@ -17,6 +17,11 @@ const port = process.env.PORT || 3000;
 
 connectDatabase();
 
+function contar(soma) {
+  soma = 2;
+  return soma;
+}
+
 app.use(express.json());
 app.use("/user", userRoute);
 app.use("/auth", authRoute);
