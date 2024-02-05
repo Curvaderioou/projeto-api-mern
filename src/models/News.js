@@ -1,26 +1,21 @@
 import mongoose from "mongoose";
-import bcrypt from "bcrypt";
 
 const NewsSchema = new mongoose.Schema({
-  title: {
-    type: String,
-    required: true,
-  },
-  text: {
-    type: String,
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
     required: true,
   },
   banner: {
     type: String,
     required: true,
   },
-  createdAt: {
-    type: Date,
-    default: Date.now(),
+  title: {
+    type: String,
+    required: true,
   },
-  user: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
+  text: {
+    type: String,
     required: true,
   },
   likes: {
@@ -31,11 +26,12 @@ const NewsSchema = new mongoose.Schema({
     type: Array,
     required: true,
   },
+  createdAt: {
+    type: Date,
+    default: Date.now(),
+  },
 });
-// NewsSchema.pre("save", async function (next) {
-//   this.password = await bcrypt.hash(this.password, 10);
-//   next();
-// });
+
 const News = mongoose.model("News", NewsSchema);
 
 export default News;

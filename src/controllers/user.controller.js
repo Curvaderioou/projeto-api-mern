@@ -1,76 +1,65 @@
 import userService from "../services/user.service.js";
 
-const create = async (req, res) => {
+async function createUserController(req, res) {
+  const { name, username, email, password, avatar, background } = req.body;
+
   try {
-    const { name, username, email, password, avatar, background } = req.body;
-    if (!name || !username || !email || !password || !avatar || !background) {
-      res.status(400).send({ message: "Preencha todos os campos" });
-    }
-
-    const user = await userService.createService(req.body);
-
-    if (!user) {
-      return res.status(404).send({ message: "Erro ao criar Usuário" });
-    }
-
-    res.status(201).send({
-      message: "Usuário criado com sucesso",
-      user: {
-        id: user._id,
-        name,
-        username,
-        email,
-        avatar,
-        background,
-      },
-    });
-  } catch (err) {
-    res.status(500).send({ message: err.message });
-  }
-};
-
-const findAll = async (req, res) => {
-  try {
-    const users = await userService.findAllService();
-    if (users.length === 0) {
-      return res.status(400).send({ message: "Não há usuários cadastrados" });
-    }
-
-    res.send(users);
-  } catch (err) {
-    res.status(500).send({ message: err.message });
-  }
-};
-
-const findById = async (req, res) => {
-  try {
-    const user = req.user;
-    res.send(user);
-  } catch (err) {
-    res.status(500).send({ message: err.message });
-  }
-};
-
-const update = async (req, res) => {
-  try {
-    const { name, username, email, password, avatar, background } = req.body;
-    if (!name && !username && !email && !password && !avatar && !background) {
-      res.status(400).send({ message: "Preencha pelo menos um campo" });
-    }
-    const { id, user } = req;
-    await userService.updateService(
-      id,
+    const token = await userService.createUserService({
       name,
       username,
       email,
       password,
       avatar,
-      background
-    );
-    res.send({ message: "Usuário alterado com sucesso" });
-  } catch (err) {
-    res.status(500).send({ message: err.message });
+      background,
+    });
+    res.status(201).send({ token: token });
+  } catch (e) {
+    return res.status(400).send(e.message);
   }
-};
+}
 
-export default { create, findAll, findById, update };
+async function findAllUserController(req, res) {
+  try {
+    const users = await userService.findAllUserService();
+    return res.send(users);
+  } catch (e) {
+    return res.status(404).send(e.message);
+  }
+}
+
+async function findUserByIdController(req, res) {
+  try {
+    const user = await userService.findUserByIdService(
+      req.params.id,
+      req.userId
+    );
+    return res.send(user);
+  } catch (e) {
+    return res.status(400).send(e.message);
+  }
+}
+
+async function updateUserController(req, res) {
+  try {
+    const { name, username, email, password, avatar, background } = req.body;
+    const { id: userId } = req.params;
+    const userIdLogged = req.userId;
+
+    const response = await userService.updateUserService(
+      { name, username, email, password, avatar, background },
+      userId,
+      userIdLogged
+    );
+
+    return res.send(response);
+  } catch (e) {
+    res.status(400).send(e.message);
+  }
+}
+
+export default {
+  createUserController,
+  findAllUserController,
+  findUserByIdController,
+  updateUserController,
+};
