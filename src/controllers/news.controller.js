@@ -66,7 +66,7 @@ async function findNewsByIdController(req, res) {
 async function findNewsByUserIdController(req, res) {
   const id = req.userId;
   try {
-    const news = await newsService.findNewssByUserIdService(id);
+    const news = await newsService.findNewsByUserIdService(id);
     return res.send(news);
   } catch (e) {
     return res.status(500).send(e.message);
