@@ -22,7 +22,7 @@ newsRouter.patch("/:id/like", newsController.likeNewsController);
 newsRouter.patch("/:id/comment", newsController.commentNewsController);
 newsRouter.patch(
   "/:id/:idComment/comment",
-  newsController.commentDeleteNewsController
+  newsController.commentUpdateNewsController
 );
 
 export default newsRouter;

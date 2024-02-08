@@ -191,7 +191,7 @@ async function commentNewsService(newsId, message, userId) {
   await newsRepositories.commentsRepository(newsId, message, userId);
 }
 
-async function commentDeleteNewsService(newsId, userId, idComment) {
+async function commentUpdateNewsService(newsId, userId, idComment) {
   const newsItem = await newsRepositories.findNewsByIdRepository(newsId);
 
   if (!newsItem) throw new Error("News not found");
@@ -210,5 +210,5 @@ export default {
   deleteNewsService,
   likeNewsService,
   commentNewsService,
-  commentDeleteNewsService,
+  commentUpdateNewsService,
 };

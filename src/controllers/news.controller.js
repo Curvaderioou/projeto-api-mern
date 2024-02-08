@@ -128,14 +128,14 @@ async function commentNewsController(req, res) {
   }
 }
 
-async function commentDeleteNewsController(req, res) {
+async function commentUpdateNewsController(req, res) {
   const { id: newsId, idComment } = req.params;
   const userId = req.userId;
 
   try {
-    await newsService.commentDeleteNewsService(newsId, userId, idComment);
+    await newsService.commentUpdateNewsService(newsId, userId, idComment);
 
-    return res.send({ message: "Comment successfully removed" });
+    return res.send({ message: "Comment successfully updated" });
   } catch (e) {
     return res.status(500).send(e.message);
   }
@@ -152,5 +152,5 @@ export default {
   deleteNewsController,
   likeNewsController,
   commentNewsController,
-  commentDeleteNewsController,
+  commentUpdateNewsController,
 };
