@@ -109,20 +109,28 @@ function commentsRepository(id, message, userId) {
   );
 }
 
-function commentsDeleteRepository(id, userId, idComment) {
-  return News.findOneAndUpdate(
-    {
-      _id: id,
-    },
-    {
-      $pull: {
-        comments: {
-          idComment: idComment,
-          userId: userId,
-        },
-      },
+async function commentsUpdateRepository(id, userId, idComment, updatedMessage) {
+  try {
+    // Verifica se a mensagem está vazia
+    if (!updatedMessage.trim()) {
+      // Se a mensagem estiver vazia, exclui o comentário
+      return await News.findOneAndUpdate(
+        { _id: id },
+        { $pull: { comments: { idComment: idComment, userId: userId } } },
+        { new: true }
+      );
+    } else {
+      // Se a mensagem não estiver vazia, atualiza o comentário
+      return await News.findOneAndUpdate(
+        { _id: id, "comments.idComment": idComment, "comments.userId": userId },
+        { $set: { "comments.$.message": updatedMessage } },
+        { new: true }
+      );
     }
-  );
+  } catch (error) {
+    console.error("Erro ao atualizar o comentário:", error);
+    throw error;
+  }
 }
 
 export default {
@@ -137,6 +145,6 @@ export default {
   likesRepository,
   likesDeleteRepository,
   commentsRepository,
-  commentsDeleteRepository,
+  commentsUpdateRepository,
   countNews,
 };
