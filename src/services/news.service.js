@@ -191,13 +191,13 @@ async function commentNewsService(newsId, message, userId) {
   await newsRepositories.commentsRepository(newsId, message, userId);
 }
 
-async function commentUpdateNewsService(newsId, userId, idComment) {
+async function commentDeleteNewsService(newsId, userId, idComment) {
   try {
     const newsItem = await newsRepositories.findNewsByIdRepository(newsId);
 
     if (!newsItem) throw new Error("News not found");
 
-    await newsRepositories.commentsUpdateRepository(newsId, userId, idComment);
+    await newsRepositories.commentsDeleteRepository(newsId, userId, idComment);
   } catch (error) {
     console.error("Error deleting comment:", error);
     throw error;
@@ -215,5 +215,5 @@ export default {
   deleteNewsService,
   likeNewsService,
   commentNewsService,
-  commentUpdateNewsService,
+  commentDeleteNewsService,
 };

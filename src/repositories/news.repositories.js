@@ -109,7 +109,7 @@ function commentsRepository(id, message, userId) {
   );
 }
 
-async function commentsUpdateRepository(id, userId, idComment) {
+async function commentsDeleteRepository(id, userId, idComment) {
   try {
     return await News.findOneAndUpdate(
       { _id: id },
@@ -134,6 +134,6 @@ export default {
   likesRepository,
   likesDeleteRepository,
   commentsRepository,
-  commentsUpdateRepository,
+  commentsDeleteRepository,
   countNews,
 };
