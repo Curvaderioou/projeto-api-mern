@@ -592,7 +592,7 @@
       }
     },
     "/news/comment/{idNews}/{idComment}": {
-      "patch": {
+      "delete": {
         "summary": "Delete a Comment",
         "description": "Route responsible for deleting a comment on a News",
         "tags": ["News"],

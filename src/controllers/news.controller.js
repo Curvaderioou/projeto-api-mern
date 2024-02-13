@@ -131,17 +131,11 @@ async function commentNewsController(req, res) {
 async function commentUpdateNewsController(req, res) {
   const { id: newsId, idComment } = req.params;
   const userId = req.userId;
-  const { updatedMessage } = req.body; // Adicionando a obtenção da mensagem atualizada do comentário a partir do corpo da solicitação
 
   try {
-    await newsService.commentUpdateNewsService(
-      newsId,
-      userId,
-      idComment,
-      updatedMessage
-    ); // Passando a mensagem atualizada do comentário para o serviço
+    await newsService.commentUpdateNewsService(newsId, userId, idComment); // Chama o serviço para excluir o comentário
 
-    return res.send({ message: "Comment successfully updated" });
+    return res.send({ message: "Comment successfully deleted" });
   } catch (e) {
     return res.status(500).send(e.message);
   }

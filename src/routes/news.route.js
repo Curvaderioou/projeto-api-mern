@@ -20,7 +20,7 @@ newsRouter.patch("/update/:id", newsController.updateNewsController);
 newsRouter.delete("/delete/:id", newsController.deleteNewsController);
 newsRouter.patch("/:id/like", newsController.likeNewsController);
 newsRouter.patch("/:id/comment", newsController.commentNewsController);
-newsRouter.patch(
+newsRouter.delete(
   "/:id/:idComment/comment",
   newsController.commentUpdateNewsController
 );

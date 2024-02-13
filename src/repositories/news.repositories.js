@@ -109,26 +109,15 @@ function commentsRepository(id, message, userId) {
   );
 }
 
-async function commentsUpdateRepository(id, userId, idComment, updatedMessage) {
+async function commentsUpdateRepository(id, userId, idComment) {
   try {
-    // Verifica se a mensagem está vazia
-    if (!updatedMessage.trim()) {
-      // Se a mensagem estiver vazia, exclui o comentário
-      return await News.findOneAndUpdate(
-        { _id: id },
-        { $pull: { comments: { idComment: idComment, userId: userId } } },
-        { new: true }
-      );
-    } else {
-      // Se a mensagem não estiver vazia, atualiza o comentário
-      return await News.findOneAndUpdate(
-        { _id: id, "comments.idComment": idComment, "comments.userId": userId },
-        { $set: { "comments.$.message": updatedMessage } },
-        { new: true }
-      );
-    }
+    return await News.findOneAndUpdate(
+      { _id: id },
+      { $pull: { comments: { id: idComment, userId: userId } } },
+      { new: true }
+    );
   } catch (error) {
-    console.error("Erro ao atualizar o comentário:", error);
+    console.error("Error deleting comment:", error);
     throw error;
   }
 }

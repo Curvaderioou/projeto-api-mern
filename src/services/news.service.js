@@ -191,25 +191,15 @@ async function commentNewsService(newsId, message, userId) {
   await newsRepositories.commentsRepository(newsId, message, userId);
 }
 
-async function commentUpdateNewsService(
-  newsId,
-  userId,
-  idComment,
-  updatedMessage
-) {
+async function commentUpdateNewsService(newsId, userId, idComment) {
   try {
     const newsItem = await newsRepositories.findNewsByIdRepository(newsId);
 
     if (!newsItem) throw new Error("News not found");
 
-    await newsRepositories.commentsUpdateRepository(
-      newsId,
-      userId,
-      idComment,
-      updatedMessage
-    );
+    await newsRepositories.commentsUpdateRepository(newsId, userId, idComment);
   } catch (error) {
-    console.error("Error updating comment:", error);
+    console.error("Error deleting comment:", error);
     throw error;
   }
 }
