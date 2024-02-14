@@ -135,7 +135,9 @@ async function commentDeleteNewsController(req, res) {
   try {
     await newsService.commentDeleteNewsService(newsId, userId, idComment); // Chama o serviço para excluir o comentário
 
-    return res.send({ message: "Comment successfully deleted" });
+    return res.send({
+      message: `Comment successfully deleted ${(id, newsId, userId)}`,
+    });
   } catch (e) {
     return res.status(500).send(e.message);
   }
