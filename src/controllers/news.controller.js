@@ -129,14 +129,14 @@ async function commentNewsController(req, res) {
 }
 
 async function commentDeleteNewsController(req, res) {
-  const { id: newsId, idComment } = req.params;
+  const { id: newsId, idComment: idComment } = req.params; // Altere _id para id
   const userId = req.userId;
-
+  // return res.send(id);
   try {
+    // console.log(idComment);
     await newsService.commentDeleteNewsService(newsId, userId, idComment); // Chama o serviço para excluir o comentário
-
     return res.send({
-      message: `Comment successfully deleted ${(id, newsId, userId)}`,
+      message: `Comment successfully deleted ${(newsId, idComment)}`, // Use newsId e idComment aqui
     });
   } catch (e) {
     return res.status(500).send(e.message);

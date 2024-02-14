@@ -92,34 +92,29 @@ function likesDeleteRepository(id, userId) {
   );
 }
 
-async function commentsRepository(id, message, userId) {
-  let idComment = Math.floor(Date.now() * Math.random()).toString(36); // Gere um ID de comentário aleatório
-  try {
-    await News.findOneAndUpdate(
-      {
-        _id: id,
+function commentsRepository(id, message, userId) {
+  let idComment = Math.floor(Date.now() * Math.random()).toString(36);
+  return News.findOneAndUpdate(
+    {
+      _id: id,
+    },
+    {
+      $push: {
+        comments: { idComment, userId, message, createdAt: new Date() },
       },
-      {
-        $push: {
-          comments: { _id: idComment, userId, message, createdAt: new Date() }, // Use o mesmo ID gerado para inserir o comentário
-        },
-      },
-      {
-        rawResult: true,
-      }
-    );
-    return idComment; // Retorne o ID do comentário criado
-  } catch (error) {
-    console.error("Error adding comment:", error);
-    throw error;
-  }
+    },
+    {
+      rawResult: true,
+    }
+  );
 }
 
 async function commentsDeleteRepository(id, userId, idComment) {
   try {
+    // console.log(id);
     return await News.findOneAndUpdate(
-      { _id: id, "comments._id": idComment, "comments.userId": userId },
-      { $pull: { comments: { _id: idComment } } },
+      { _id: id, "comments.idComment": idComment, "comments.userId": userId },
+      { $pull: { comments: { idComment: idComment } } },
       { new: true }
     );
   } catch (error) {
