@@ -112,8 +112,8 @@ function commentsRepository(id, message, userId) {
 async function commentsDeleteRepository(id, userId, idComment) {
   try {
     return await News.findOneAndUpdate(
-      { _id: id },
-      { $pull: { comments: { id: idComment, userId: userId } } },
+      { _id: id, "comments._id": idComment, "comments.userId": userId },
+      { $pull: { comments: { _id: idComment } } },
       { new: true }
     );
   } catch (error) {
