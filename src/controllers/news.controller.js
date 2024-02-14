@@ -105,7 +105,7 @@ async function likeNewsController(req, res) {
 
   try {
     const response = await newsService.likeNewsService(id, userId);
-
+    console.log(response);
     return res.send(response);
   } catch (e) {
     return res.status(500).send(e.message);

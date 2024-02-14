@@ -160,7 +160,7 @@ async function updateNewsService(id, title, banner, text, userId) {
 }
 
 async function deleteNewsService(id, userId) {
-  const newsItem = await newsService.findNewsByIdService(id);
+  const newsItem = await newsRepositories.findNewsByIdService(id);
 
   if (!newsItem) throw new Error("News not found");
 
@@ -171,14 +171,24 @@ async function deleteNewsService(id, userId) {
 }
 
 async function likeNewsService(id, userId) {
-  const newsLiked = await newsService.likesService(id, userId);
-
-  if (newsLiked.lastErrorObject.n === 0) {
-    await newsService.likesDeleteService(id, userId);
-    return { message: "Like successfully removed" };
+  try {
+    const newsLiked = await newsRepositories.likesRepository(id, userId);
+    if (
+      newsLiked &&
+      newsLiked.lastErrorObject &&
+      newsLiked.lastErrorObject.n === 0
+    ) {
+      await newsRepositories.likesDeleteRepository(id, userId);
+      return { message: "Like successfully removed" };
+    } else if (newsLiked === null) {
+      await newsRepositories.likesDeleteRepository(id, userId);
+    } else {
+      return { message: "An unexpected error occurred" };
+    }
+  } catch (error) {
+    console.error("Error liking news:", error);
+    throw error;
   }
-
-  return { message: "Like done successfully" };
 }
 
 async function commentNewsService(newsId, message, userId) {
