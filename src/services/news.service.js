@@ -206,7 +206,6 @@ async function commentDeleteNewsService(newsId, userId, idComment) {
     const newsItem = await newsRepositories.findNewsByIdRepository(newsId);
     if (!newsItem) throw new Error("News not found");
 
-    // console.log(newsItem);
     await newsRepositories.commentsDeleteRepository(newsId, userId, idComment);
   } catch (error) {
     console.error("Error deleting comment:", error);

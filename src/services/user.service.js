@@ -83,7 +83,13 @@ async function updateUserService(
     background
   );
 
-  return { message: "User successfully updated!" };
+  const userUpdated = await userRepositories.findByIdUserRepository(userId);
+
+  // Após a atualização do usuário, gere o token de acesso
+  const token = authService.generateToken(userId);
+
+  // Retorna as informações do usuário atualizadas junto com o token
+  return { userUpdated, token, message: "User successfully updated!" };
 }
 
 export default {

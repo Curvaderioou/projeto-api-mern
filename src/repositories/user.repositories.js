@@ -23,7 +23,7 @@ const findAllUserRepository = () => User.find();
 
 const findByIdUserRepository = (idUser) => User.findById(idUser);
 
-const updateUserRepository = (
+const updateUserRepository = async (
   id,
   name,
   username,
@@ -31,23 +31,23 @@ const updateUserRepository = (
   password,
   avatar,
   background
-) =>
-  User.findOneAndUpdate(
-    {
-      _id: id,
-    },
-    {
-      name,
-      username,
-      email,
-      password,
-      avatar,
-      background,
-    },
-    {
-      rawResult: true,
+) => {
+  try {
+    const updatedUser = await User.findOneAndUpdate(
+      { _id: id },
+      { name, username, email, password, avatar, background },
+      { new: true } // Para retornar o documento atualizado
+    );
+
+    if (!updatedUser) {
+      throw new Error("Usuário não encontrado");
     }
-  );
+
+    return updatedUser;
+  } catch (error) {
+    throw new Error("Erro ao atualizar o usuário: " + error.message);
+  }
+};
 
 export default {
   findByEmailUserRepository,

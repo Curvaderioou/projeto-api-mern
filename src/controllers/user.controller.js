@@ -51,6 +51,7 @@ async function updateUserController(req, res) {
       userIdLogged
     );
 
+    // Aqui, response contém tanto o usuário atualizado quanto o token de acesso
     return res.send(response);
   } catch (e) {
     res.status(400).send(e.message);
