@@ -5,7 +5,7 @@ async function createNewsController(req, res) {
   const userId = req.userId;
 
   try {
-    const news = await newsService.createnewsService(
+    const news = await newsService.createNewsService(
       { title, banner, text },
       userId
     );

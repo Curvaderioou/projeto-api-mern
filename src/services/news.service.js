@@ -1,8 +1,9 @@
 import newsRepositories from "../repositories/news.repositories.js";
 
 async function createNewsService({ title, banner, text }, userId) {
-  if (!title || !banner || !text)
+  if (!title || !banner || !text) {
     throw new Error("Submit all fields for registration");
+  }
 
   const { id } = await newsRepositories.createNewsRepository(
     title,
@@ -22,7 +23,7 @@ async function findAllNewsService(limit, offset, currentUrl) {
   offset = Number(offset);
 
   if (!limit) {
-    limit = 5;
+    limit = 50;
   }
 
   if (!offset) {
@@ -121,6 +122,7 @@ async function findNewsByIdService(id) {
     text: newsItem.text,
     likes: newsItem.likes,
     comments: newsItem.comments,
+    userId: newsItem.user._id,
     name: newsItem.user.name,
     username: newsItem.user.username,
     avatar: newsItem.user.avatar,
