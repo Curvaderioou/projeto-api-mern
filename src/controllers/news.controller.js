@@ -95,7 +95,7 @@ async function deleteNewsController(req, res) {
     await newsService.deleteNewsService(id, userId);
     return res.send({ message: "news deleted successfully" });
   } catch (err) {
-    return res.status(500).send(e.message);
+    return res.status(500).send(err.message);
   }
 }
 

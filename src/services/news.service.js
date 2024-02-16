@@ -162,7 +162,9 @@ async function updateNewsService(id, title, banner, text, userId) {
 }
 
 async function deleteNewsService(id, userId) {
-  const newsItem = await newsRepositories.findNewsByIdService(id);
+  const newsItem = await newsRepositories.findNewsByIdRepository(id);
+
+  console.log(newsItem);
 
   if (!newsItem) throw new Error("News not found");
 
