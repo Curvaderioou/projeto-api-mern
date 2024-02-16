@@ -40,20 +40,28 @@ function findNewsByUserIdRepository(id) {
     .populate("user");
 }
 
-function updateNewsRepository(id, title, banner, text) {
-  return News.findOneAndUpdate(
-    {
-      _id: id,
-    },
-    {
-      title,
-      banner,
-      text,
-    },
-    {
-      rawResult: true,
+async function updateNewsRepository(id, title, banner, text) {
+  try {
+    const updatedNews = await News.findOneAndUpdate(
+      {
+        _id: id,
+      },
+      {
+        title,
+        banner,
+        text,
+      },
+      { new: true } // Para retornar o documento atualizado
+    );
+
+    if (!updatedNews) {
+      throw new Error("Notícia não encontrada");
     }
-  );
+
+    return updatedNews;
+  } catch (error) {
+    throw new Error("Erro ao atualizar a notícia: " + error.message);
+  }
 }
 
 function deleteNewsRepository(id) {

@@ -159,12 +159,14 @@ async function updateNewsService(id, title, banner, text, userId) {
     throw new Error("You didn't create this news");
 
   await newsRepositories.updateNewsRepository(id, title, banner, text);
+
+  const newsUpdated = await newsRepositories.findNewsByIdRepository(id);
+
+  return { newsUpdated, message: "News successfully updated!" };
 }
 
 async function deleteNewsService(id, userId) {
   const newsItem = await newsRepositories.findNewsByIdRepository(id);
-
-  console.log(newsItem);
 
   if (!newsItem) throw new Error("News not found");
 

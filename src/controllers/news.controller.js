@@ -79,9 +79,15 @@ async function updateNewsController(req, res) {
   const userId = req.userId;
 
   try {
-    await newsService.updateNewsService(id, title, banner, text, userId);
+    const response = await newsService.updateNewsService(
+      id,
+      title,
+      banner,
+      text,
+      userId
+    );
 
-    return res.send({ message: "news successfully updated!" });
+    return res.send(response);
   } catch (e) {
     return res.status(500).send(e.message);
   }
